@@ -30,22 +30,22 @@
 		{
 			this.btnStart = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.txtTasks = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// btnStart
 			// 
-			this.btnStart.Location = new System.Drawing.Point(50, 70);
+			this.btnStart.Location = new System.Drawing.Point(41, 250);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(75, 23);
-			this.btnStart.TabIndex = 0;
+			this.btnStart.TabIndex = 1;
 			this.btnStart.Text = "开始";
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnArticles_Click);
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(162, 70);
+			this.btnExit.Location = new System.Drawing.Point(145, 250);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(75, 23);
 			this.btnExit.TabIndex = 2;
@@ -53,21 +53,21 @@
 			this.btnExit.UseVisualStyleBackColor = true;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
 			// 
-			// label1
+			// txtTasks
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(34, 21);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(203, 12);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "打开学习强国APP后点击[开始]按钮。";
+			this.txtTasks.ImeMode = System.Windows.Forms.ImeMode.Off;
+			this.txtTasks.Location = new System.Drawing.Point(12, 12);
+			this.txtTasks.Multiline = true;
+			this.txtTasks.Name = "txtTasks";
+			this.txtTasks.Size = new System.Drawing.Size(234, 221);
+			this.txtTasks.TabIndex = 0;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 108);
-			this.Controls.Add(this.label1);
+			this.ClientSize = new System.Drawing.Size(256, 291);
+			this.Controls.Add(this.txtTasks);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnStart);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -87,7 +87,7 @@
 
 		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.Button btnExit;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox txtTasks;
 	}
 }
 
