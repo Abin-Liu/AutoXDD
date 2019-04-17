@@ -81,7 +81,7 @@ namespace AutoXDD
 						string[] timeFields = fields[2].Split(new char[] { ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
 						if (timeFields.Length == 0)
 						{
-							data.Duration = 5 * 60 * 1000;
+							data.Duration = 3 * 60 * 1000;
 						}
 						else if (timeFields.Length == 1)
 						{

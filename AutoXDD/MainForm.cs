@@ -70,7 +70,7 @@ namespace AutoXDD
 			}
 
 			Point cursor = m_thread.GetCursorClientPos();			
-			string line = string.Format("{0}, {1}, 5:00\r\n", cursor.X, cursor.Y);
+			string line = string.Format("{0}, {1}, 3:00\r\n", cursor.X, cursor.Y);
 			txtTasks.Text += line;
 		}
 
