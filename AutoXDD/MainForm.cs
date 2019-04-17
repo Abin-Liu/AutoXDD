@@ -95,6 +95,7 @@ namespace AutoXDD
 			
 			btnStart.Text = "▶  开始";
 			txtTasks.Enabled = true;
+			txtTasks.Text = "";
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
