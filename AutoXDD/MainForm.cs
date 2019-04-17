@@ -20,6 +20,7 @@ namespace AutoXDD
 		{
 			base.Form_OnLoad(sender, e);
 			RegisterHotKey(1, Keys.F4);
+			txtTime.Text = "";			
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -30,6 +31,12 @@ namespace AutoXDD
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			base.Form_OnClosed(sender, e);
+		}
+
+		private string formatTime(int milliseconds)
+		{
+			int seconds = milliseconds / 1000;
+			return string.Format("{0}:{1:D2}", seconds / 60, seconds % 60);
 		}
 
 		private void btnArticles_Click(object sender, EventArgs e)
@@ -46,6 +53,9 @@ namespace AutoXDD
 				}
 				else
 				{
+					txtTime.Text = formatTime(m_thread.TotalDuration);
+					progressBar1.Maximum = m_thread.TotalDuration;
+					progressBar1.Value = 0;
 					StartThread();
 				}
 			}
@@ -74,9 +84,15 @@ namespace AutoXDD
 		protected override void OnThreadStop()
 		{
 			base.OnThreadStop();
-			m_thread.Alerting = true;
-			Message("本次自动学习完成。", MessageBoxIcon.Information);
-			m_thread.Alerting = false;
+			if (!m_thread.Aborted)			
+			{
+				txtTime.Text = formatTime(0);
+				progressBar1.Value = progressBar1.Maximum;
+				m_thread.Alerting = true;
+				Message("本次自动学习完成。", MessageBoxIcon.Information);
+				m_thread.Alerting = false;
+			}
+			
 			btnStart.Text = "▶  开始";
 			txtTasks.Enabled = true;
 		}
@@ -84,6 +100,14 @@ namespace AutoXDD
 		private void btnExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		protected override void OnThreadMessage(int wParam, int lParam)
+		{
+			base.OnThreadMessage(wParam, lParam);
+			int elapsed = m_thread.Elapsed;
+			txtTime.Text = formatTime(m_thread.TotalDuration - elapsed);
+			progressBar1.Value = elapsed;
 		}
 	}
 }

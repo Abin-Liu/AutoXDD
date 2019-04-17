@@ -17,6 +17,20 @@ namespace AutoXDD
 	class AutoXDDThread : AutomationThread
 	{
 		List<TaskData> m_tasks = new List<TaskData>();
+		DateTime m_startTime;
+
+		public int TotalDuration { get; private set; } = 0;
+
+		public int Elapsed
+		{
+			get
+			{
+				int value = (int)(DateTime.Now - m_startTime).TotalMilliseconds;
+				value = Math.Max(0, value);
+				value = Math.Min(TotalDuration, value);
+				return value;				
+			}
+		}
 
 		public AutoXDDThread()
 		{
@@ -37,6 +51,7 @@ namespace AutoXDD
 
 		public bool SetTasks(string contents)
 		{
+			TotalDuration = 0;
 			m_tasks.Clear();
 			string[] lines = contents.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string line in lines)
@@ -49,6 +64,7 @@ namespace AutoXDD
 					{
 						data.Scroll = Convert.ToInt32(fields[0].Replace("/", "").Trim());
 						m_tasks.Add(data);
+						TotalDuration += data.Scroll * 100;
 					}
 					catch
 					{
@@ -61,9 +77,27 @@ namespace AutoXDD
 					{
 						data.X = Convert.ToInt32(fields[0].Trim());
 						data.Y = Convert.ToInt32(fields[1].Trim());
+
 						string[] timeFields = fields[2].Split(new char[] { ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
-						data.Duration = (Convert.ToInt32(timeFields[0]) * 60 + Convert.ToInt32(timeFields[1])) * 1000;
+						if (timeFields.Length == 0)
+						{
+							data.Duration = 5 * 60 * 1000;
+						}
+						else if (timeFields.Length == 1)
+						{
+							data.Duration = Convert.ToInt32(timeFields[0]) * 1000;
+						}
+						else if (timeFields.Length == 2)
+						{
+							data.Duration = (Convert.ToInt32(timeFields[0]) * 60 + Convert.ToInt32(timeFields[1])) * 1000;
+						}
+						else
+						{
+							data.Duration = (Convert.ToInt32(timeFields[0]) * 3600 + Convert.ToInt32(timeFields[1]) * 60 + Convert.ToInt32(timeFields[2])) * 1000;
+						}
+
 						m_tasks.Add(data);
+						TotalDuration += 1500 + 6000 + data.Duration;
 					}
 					catch
 					{
@@ -100,7 +134,8 @@ namespace AutoXDD
 
 		protected override void ThreadProc()
 		{
-			SetTargetWndForeground();			
+			SetTargetWndForeground();
+			m_startTime = DateTime.Now;
 			foreach (TaskData data in m_tasks)
 			{
 				if (data.Scroll > 0)
@@ -117,6 +152,12 @@ namespace AutoXDD
 					Back();
 				}				
 			}
-		}		
+		}
+
+		protected override void OnTick()
+		{
+			base.OnTick();
+			PostMessage(0, 0);
+		}
 	}
 }
