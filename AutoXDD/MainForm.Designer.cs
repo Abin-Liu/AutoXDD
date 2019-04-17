@@ -36,6 +36,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtTime = new System.Windows.Forms.Label();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
+			this.label3 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// btnStart
@@ -101,11 +102,21 @@
 			this.progressBar1.Size = new System.Drawing.Size(309, 18);
 			this.progressBar1.TabIndex = 6;
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(206, 9);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(113, 12);
+			this.label3.TabIndex = 7;
+			this.label3.Text = "使用Ctrl+G捕捉任务";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(331, 296);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.txtTime);
 			this.Controls.Add(this.label2);
@@ -136,6 +147,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label txtTime;
 		private System.Windows.Forms.ProgressBar progressBar1;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

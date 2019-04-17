@@ -19,7 +19,7 @@ namespace AutoXDD
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			base.Form_OnLoad(sender, e);
-			RegisterHotKey(1, Keys.F4);
+			RegisterHotKey(1, Keys.G, Win32API.ModKeys.Control);
 			txtTime.Text = "";			
 		}
 
@@ -69,9 +69,14 @@ namespace AutoXDD
 				return;
 			}
 
-			Point cursor = m_thread.GetCursorClientPos();			
-			string line = string.Format("{0}, {1}, 3:00\r\n", cursor.X, cursor.Y);
-			txtTasks.Text += line;
+			Point cursor = m_thread.GetCursorClientPos();
+			string text = txtTasks.Text.Trim();
+			if (text != "")
+			{
+				text += "\r\n";
+			}
+			text += string.Format("{0}, {1}, 3:00", cursor.X, cursor.Y);
+			txtTasks.Text = text;
 		}
 
 		protected override void OnThreadStart()
