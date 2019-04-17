@@ -1,6 +1,6 @@
 ﻿namespace AutoXDD
 {
-	partial class Form1
+	partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.btnStart = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
 			this.txtTasks = new System.Windows.Forms.TextBox();
@@ -35,19 +36,19 @@
 			// 
 			// btnStart
 			// 
-			this.btnStart.Location = new System.Drawing.Point(41, 250);
+			this.btnStart.Location = new System.Drawing.Point(41, 271);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(75, 23);
+			this.btnStart.Size = new System.Drawing.Size(75, 25);
 			this.btnStart.TabIndex = 1;
-			this.btnStart.Text = "开始";
+			this.btnStart.Text = "▶  开始";
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnArticles_Click);
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(145, 250);
+			this.btnExit.Location = new System.Drawing.Point(145, 271);
 			this.btnExit.Name = "btnExit";
-			this.btnExit.Size = new System.Drawing.Size(75, 23);
+			this.btnExit.Size = new System.Drawing.Size(75, 25);
 			this.btnExit.TabIndex = 2;
 			this.btnExit.Text = "退出";
 			this.btnExit.UseVisualStyleBackColor = true;
@@ -56,23 +57,24 @@
 			// txtTasks
 			// 
 			this.txtTasks.ImeMode = System.Windows.Forms.ImeMode.Off;
-			this.txtTasks.Location = new System.Drawing.Point(12, 12);
+			this.txtTasks.Location = new System.Drawing.Point(12, 13);
 			this.txtTasks.Multiline = true;
 			this.txtTasks.Name = "txtTasks";
-			this.txtTasks.Size = new System.Drawing.Size(234, 221);
+			this.txtTasks.Size = new System.Drawing.Size(234, 239);
 			this.txtTasks.TabIndex = 0;
 			// 
-			// Form1
+			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(256, 291);
+			this.ClientSize = new System.Drawing.Size(256, 315);
 			this.Controls.Add(this.txtTasks);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnStart);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.Name = "Form1";
+			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "自动学习强国";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 using Automation;
+using Win32API;
 
 namespace AutoXDD
 {
@@ -21,12 +21,25 @@ namespace AutoXDD
 		public AutoXDDThread()
 		{
 			TargetWndName = "学习强国 - MuMu模拟器";
-		}	
-		
-		public void Start(Form1 form, string[] tasks)
+		}
+
+		public Point GetCursorClientPos()
+		{
+			if (TargetWnd == IntPtr.Zero)
+			{
+				TargetWnd = Window.FindWindow(null, TargetWndName);
+			}
+
+			Point point = Input.GetCursorPos();
+			point.Offset(ScreenToClient);
+			return point;
+		}
+
+		public bool SetTasks(string contents)
 		{
 			m_tasks.Clear();
-			foreach (string line in tasks)
+			string[] lines = contents.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (string line in lines)
 			{
 				TaskData data = new TaskData();
 				string[] fields = line.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -40,7 +53,7 @@ namespace AutoXDD
 					catch
 					{
 						continue;
-					}					
+					}
 				}
 				else if (fields.Length == 3)
 				{
@@ -48,7 +61,7 @@ namespace AutoXDD
 					{
 						data.X = Convert.ToInt32(fields[0].Trim());
 						data.Y = Convert.ToInt32(fields[1].Trim());
-						string[] timeFields = fields[2].Split(':');
+						string[] timeFields = fields[2].Split(new char[] { ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
 						data.Duration = (Convert.ToInt32(timeFields[0]) * 60 + Convert.ToInt32(timeFields[1])) * 1000;
 						m_tasks.Add(data);
 					}
@@ -56,10 +69,10 @@ namespace AutoXDD
 					{
 						continue;
 					}
-				}				
+				}
 			}
 
-			base.Start(form);
+			return m_tasks.Count > 0;
 		}
 		
 		void ScrollDown(int count)
@@ -80,6 +93,11 @@ namespace AutoXDD
 			}
 		}
 
+		void Back()
+		{
+			MouseClick(32, 90); // 顶端<返回按钮
+		}
+
 		protected override void ThreadProc()
 		{
 			SetTargetWndForeground();			
@@ -95,7 +113,8 @@ namespace AutoXDD
 					MouseClick(data.X, data.Y);
 					Sleep(3000);
 					AntiIdle(data.Duration);
-					MouseClick(32, 90); // 顶端<返回按钮
+					Sleep(3000);
+					Back();
 				}				
 			}
 		}		

@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Automation;
-using Win32API;
 
 namespace AutoXDD
 {
-	public partial class Form1 : AutomationForm
+	public partial class MainForm : AutomationForm
 	{
 		AutoXDDThread m_thread = new AutoXDDThread();
 
-		public Form1()
+		public MainForm()
 		{
 			InitializeComponent();
 			m_thread.EnableBeeps = true;
@@ -46,9 +40,14 @@ namespace AutoXDD
 			}
 			else
 			{
-				string text = txtTasks.Text.Trim();
-				string[] lines = text.Split(new char[] { '\n', '\n' }, StringSplitOptions.RemoveEmptyEntries);				
-				m_thread.Start(this, lines);
+				if (!m_thread.SetTasks(txtTasks.Text))
+				{
+					Message("没有任务数据。");
+				}
+				else
+				{
+					StartThread();
+				}
 			}
 		}
 
@@ -60,10 +59,7 @@ namespace AutoXDD
 				return;
 			}
 
-			IntPtr hwnd = Window.FindWindow(null, m_thread.TargetWndName);
-			Point cursor = Input.GetCursorPos();
-			Point offset = Window.ScreenToClient(hwnd);
-			cursor.Offset(offset);
+			Point cursor = m_thread.GetCursorClientPos();			
 			string line = string.Format("{0}, {1}, 5:00\r\n", cursor.X, cursor.Y);
 			txtTasks.Text += line;
 		}
@@ -71,15 +67,17 @@ namespace AutoXDD
 		protected override void OnThreadStart()
 		{
 			base.OnThreadStart();			
-			btnStart.Text = "停止";
+			btnStart.Text = "■  停止";
 			txtTasks.Enabled = false;
 		}
 
 		protected override void OnThreadStop()
 		{
 			base.OnThreadStop();
+			m_thread.Alerting = true;
 			Message("本次自动学习完成。", MessageBoxIcon.Information);
-			btnStart.Text = "开始";
+			m_thread.Alerting = false;
+			btnStart.Text = "▶  开始";
 			txtTasks.Enabled = true;
 		}
 
