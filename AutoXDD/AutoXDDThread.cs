@@ -16,6 +16,14 @@ namespace AutoXDD
 
 	class AutoXDDThread : AutomationThread
 	{
+		public const int DEFAULT_DURATION = 180000; // 默认任务时间
+		public const int SCROLL_DELAY_TIME = 100; // 两次滚轮之间的间隔
+		public const int TASK_OPEN_TIME = 1500; // 增加到每个任务开头的时间用于等待鼠标点击
+		public const int TASK_EXTRA_TIME = 3000; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
+
+		public int Count { get { return m_tasks.Count; } }
+		public TaskData this[int index] { get { return m_tasks[index]; } }
+
 		List<TaskData> m_tasks = new List<TaskData>();
 		DateTime m_startTime;
 
@@ -64,7 +72,7 @@ namespace AutoXDD
 					{
 						data.Scroll = Convert.ToInt32(fields[0].Replace("/", "").Trim());
 						m_tasks.Add(data);
-						TotalDuration += data.Scroll * 100;
+						TotalDuration += data.Scroll * SCROLL_DELAY_TIME;
 					}
 					catch
 					{
@@ -81,17 +89,17 @@ namespace AutoXDD
 						string[] timeFields = fields[2].Split(new char[] { ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
 						if (timeFields.Length == 0)
 						{
-							data.Duration = 3 * 60 * 1000;
+							data.Duration = DEFAULT_DURATION; // 默认
 						}
 						else if (timeFields.Length == 1)
 						{
-							data.Duration = Convert.ToInt32(timeFields[0]) * 1000;
+							data.Duration = Convert.ToInt32(timeFields[0]) * 1000; // 只有秒
 						}
-						else if (timeFields.Length == 2)
+						else if (timeFields.Length == 2) // 分:秒
 						{
 							data.Duration = (Convert.ToInt32(timeFields[0]) * 60 + Convert.ToInt32(timeFields[1])) * 1000;
 						}
-						else
+						else // 时:分:秒
 						{
 							data.Duration = (Convert.ToInt32(timeFields[0]) * 3600 + Convert.ToInt32(timeFields[1]) * 60 + Convert.ToInt32(timeFields[2])) * 1000;
 						}
@@ -114,7 +122,7 @@ namespace AutoXDD
 			for (int i = 0; i < count; i++)
 			{				
 				MouseWheel(false);
-				Sleep(100);
+				Sleep(SCROLL_DELAY_TIME);
 			}
 		}
 
@@ -136,21 +144,30 @@ namespace AutoXDD
 		{
 			SetTargetWndForeground();
 			m_startTime = DateTime.Now;
-			foreach (TaskData data in m_tasks)
+			for (int i = 0; i < Count; i++)
 			{
+				TaskData data = m_tasks[i];
+
 				if (data.Scroll > 0)
 				{
 					ScrollDown(data.Scroll);
 				}
 				else
 				{
-					Sleep(1500);
+					Sleep(TASK_OPEN_TIME);
 					MouseClick(data.X, data.Y);
-					Sleep(3000);
+					Sleep(TASK_EXTRA_TIME);
 					AntiIdle(data.Duration);
-					Sleep(3000);
-					Back();
-				}				
+					Sleep(TASK_EXTRA_TIME);
+
+					// 最后一个任务不返回列表，正好蹭阅读时长
+					if (i < Count - 1)
+					{
+						Back();
+					}
+				}
+
+				PostMessage(1, i + 1);
 			}
 		}
 
