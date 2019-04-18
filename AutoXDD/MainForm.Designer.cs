@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.btnStart = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
@@ -37,23 +38,24 @@
 			this.txtTime = new System.Windows.Forms.Label();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.label3 = new System.Windows.Forms.Label();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// btnStart
 			// 
-			this.btnStart.Location = new System.Drawing.Point(76, 280);
+			this.btnStart.Location = new System.Drawing.Point(76, 258);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(75, 25);
+			this.btnStart.Size = new System.Drawing.Size(75, 23);
 			this.btnStart.TabIndex = 1;
-			this.btnStart.Text = "▶  开始";
+			this.btnStart.Text = "▶ 开始";
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(182, 280);
+			this.btnExit.Location = new System.Drawing.Point(182, 258);
 			this.btnExit.Name = "btnExit";
-			this.btnExit.Size = new System.Drawing.Size(75, 25);
+			this.btnExit.Size = new System.Drawing.Size(75, 23);
 			this.btnExit.TabIndex = 2;
 			this.btnExit.Text = "退出";
 			this.btnExit.UseVisualStyleBackColor = true;
@@ -62,60 +64,66 @@
 			// txtTasks
 			// 
 			this.txtTasks.ImeMode = System.Windows.Forms.ImeMode.Off;
-			this.txtTasks.Location = new System.Drawing.Point(10, 27);
+			this.txtTasks.Location = new System.Drawing.Point(10, 25);
 			this.txtTasks.Multiline = true;
 			this.txtTasks.Name = "txtTasks";
-			this.txtTasks.Size = new System.Drawing.Size(309, 183);
+			this.txtTasks.Size = new System.Drawing.Size(309, 169);
 			this.txtTasks.TabIndex = 0;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 10);
+			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(67, 13);
+			this.label1.Size = new System.Drawing.Size(65, 12);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "任务列表：";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 225);
+			this.label2.Location = new System.Drawing.Point(12, 208);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(67, 13);
+			this.label2.Size = new System.Drawing.Size(65, 12);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "剩余时间：";
 			// 
 			// txtTime
 			// 
 			this.txtTime.AutoSize = true;
-			this.txtTime.Location = new System.Drawing.Point(83, 225);
+			this.txtTime.Location = new System.Drawing.Point(83, 208);
 			this.txtTime.Name = "txtTime";
-			this.txtTime.Size = new System.Drawing.Size(43, 13);
+			this.txtTime.Size = new System.Drawing.Size(41, 12);
 			this.txtTime.TabIndex = 5;
 			this.txtTime.Text = "未开始";
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(10, 244);
+			this.progressBar1.Location = new System.Drawing.Point(10, 225);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(309, 20);
+			this.progressBar1.Size = new System.Drawing.Size(309, 18);
 			this.progressBar1.TabIndex = 6;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(206, 10);
+			this.label3.Location = new System.Drawing.Point(230, 9);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(108, 13);
+			this.label3.Size = new System.Drawing.Size(89, 12);
 			this.label3.TabIndex = 7;
-			this.label3.Text = "使用Ctrl+G捕捉任务";
+			this.label3.Text = "使用F4捕捉任务";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// timer1
+			// 
+			this.timer1.Interval = 200;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(331, 321);
+			this.ClientSize = new System.Drawing.Size(331, 296);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.txtTime);
@@ -148,6 +156,7 @@
 		private System.Windows.Forms.Label txtTime;
 		private System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Timer timer1;
 	}
 }
 

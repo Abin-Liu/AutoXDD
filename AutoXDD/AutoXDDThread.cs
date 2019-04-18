@@ -16,7 +16,7 @@ namespace AutoXDD
 
 	class AutoXDDThread : AutomationThread
 	{
-		public const int DEFAULT_DURATION = 180000; // 默认任务时间
+		public const int DEFAULT_DURATION = 4 * 60 * 1000; // 默认任务时间
 		public const int SCROLL_DELAY_TIME = 100; // 两次滚轮之间的间隔
 		public const int TASK_OPEN_TIME = 1500; // 增加到每个任务开头的时间用于等待鼠标点击
 		public const int TASK_EXTRA_TIME = 3000; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
@@ -24,21 +24,7 @@ namespace AutoXDD
 		public int Count { get { return m_tasks.Count; } }
 		public TaskData this[int index] { get { return m_tasks[index]; } }
 
-		List<TaskData> m_tasks = new List<TaskData>();
-		DateTime m_startTime;
-
-		public int TotalDuration { get; private set; } = 0;
-
-		public int Elapsed
-		{
-			get
-			{
-				int value = (int)(DateTime.Now - m_startTime).TotalMilliseconds;
-				value = Math.Max(0, value);
-				value = Math.Min(TotalDuration, value);
-				return value;				
-			}
-		}
+		List<TaskData> m_tasks = new List<TaskData>();		
 
 		public AutoXDDThread()
 		{
@@ -57,9 +43,9 @@ namespace AutoXDD
 			return point;
 		}
 
-		public bool SetTasks(string contents)
+		public int SetTasks(string contents)
 		{
-			TotalDuration = 0;
+			int duration = 0;
 			m_tasks.Clear();
 			string[] lines = contents.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string line in lines)
@@ -72,7 +58,7 @@ namespace AutoXDD
 					{
 						data.Scroll = Convert.ToInt32(fields[0].Replace("/", "").Trim());
 						m_tasks.Add(data);
-						TotalDuration += data.Scroll * SCROLL_DELAY_TIME;
+						duration += data.Scroll * SCROLL_DELAY_TIME;
 					}
 					catch
 					{
@@ -105,7 +91,7 @@ namespace AutoXDD
 						}
 
 						m_tasks.Add(data);
-						TotalDuration += 1500 + 6000 + data.Duration;
+						duration += TASK_OPEN_TIME + TASK_EXTRA_TIME + data.Duration + TASK_EXTRA_TIME;
 					}
 					catch
 					{
@@ -114,7 +100,7 @@ namespace AutoXDD
 				}
 			}
 
-			return m_tasks.Count > 0;
+			return duration;
 		}
 		
 		void ScrollDown(int count)
@@ -143,7 +129,6 @@ namespace AutoXDD
 		protected override void ThreadProc()
 		{
 			SetTargetWndForeground();
-			m_startTime = DateTime.Now;
 			for (int i = 0; i < Count; i++)
 			{
 				TaskData data = m_tasks[i];
@@ -167,14 +152,8 @@ namespace AutoXDD
 					}
 				}
 
-				PostMessage(1, i + 1);
+				PostMessage(0, i + 1);
 			}
-		}
-
-		protected override void OnTick()
-		{
-			base.OnTick();
-			PostMessage(0, 0);
-		}
+		}		
 	}
 }

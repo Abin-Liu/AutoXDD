@@ -8,6 +8,8 @@ namespace AutoXDD
 	public partial class MainForm : AutomationForm
 	{
 		AutoXDDThread m_thread = new AutoXDDThread();
+		DateTime m_startTime;
+		int m_totalDuration = 0;
 
 		public MainForm()
 		{
@@ -19,7 +21,7 @@ namespace AutoXDD
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			base.Form_OnLoad(sender, e);
-			RegisterHotKey(1, Keys.G, Win32API.ModKeys.Control);
+			RegisterHotKey(1, Keys.F4);
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -92,14 +94,19 @@ namespace AutoXDD
 
 		protected override void OnThreadStart()
 		{
-			base.OnThreadStart();			
-			btnStart.Text = "■  停止";
+			base.OnThreadStart();
+
+			btnStart.Text = "■ 停止";
 			txtTasks.Enabled = false;
+			m_startTime = DateTime.Now;
+			timer1.Enabled = true;
 		}
 
 		protected override void OnThreadStop()
 		{
 			base.OnThreadStop();
+
+			timer1.Enabled = false;
 			if (m_thread.Aborted)
 			{
 				SetLabel("已取消");
@@ -110,7 +117,7 @@ namespace AutoXDD
 				progressBar1.Value = progressBar1.Maximum;
 			}
 			
-			btnStart.Text = "▶  开始";
+			btnStart.Text = "▶ 开始";
 			txtTasks.Enabled = true;
 			txtTasks.Text = "";
 		}
@@ -123,22 +130,7 @@ namespace AutoXDD
 		protected override void OnThreadMessage(int wParam, int lParam)
 		{
 			base.OnThreadMessage(wParam, lParam);
-
-			if (wParam == 0) // OnTick
-			{
-				if (!IsAlive)
-				{
-					return;
-				}
-
-				int elapsed = m_thread.Elapsed;
-				progressBar1.Value = elapsed;
-				SetLabel(m_thread.TotalDuration - elapsed);
-			}
-			else if (wParam == 1) // Progress
-			{
-				UpdateTaskText(lParam);
-			}			
+			UpdateTaskText(lParam);
 		}
 
 		private void btnStart_Click(object sender, EventArgs e)
@@ -149,17 +141,27 @@ namespace AutoXDD
 				return;
 			}
 
-			if (!m_thread.SetTasks(txtTasks.Text))
+			m_totalDuration = m_thread.SetTasks(txtTasks.Text);
+			if (m_totalDuration == 0)
 			{
 				SetLabel("没有任务数据");
 				return;
 			}
 
 			UpdateTaskText(0);
-			SetLabel(m_thread.TotalDuration);
-			progressBar1.Maximum = m_thread.TotalDuration;
+			SetLabel(m_totalDuration);
+			progressBar1.Maximum = m_totalDuration;
 			progressBar1.Value = 0;
 			StartThread();
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			int elapsed = (int)(DateTime.Now - m_startTime).TotalMilliseconds;
+			elapsed = Math.Max(0, elapsed);
+			elapsed = Math.Min(m_totalDuration, elapsed);
+			SetLabel(m_totalDuration - elapsed);
+			progressBar1.Value = elapsed;
 		}
 	}
 }
