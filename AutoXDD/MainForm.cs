@@ -115,11 +115,11 @@ namespace AutoXDD
 			{
 				SetLabel("已完成");
 				progressBar1.Value = progressBar1.Maximum;
+				txtTasks.Text = "";
 			}
 			
 			btnStart.Text = "▶ 开始";
-			txtTasks.Enabled = true;
-			txtTasks.Text = "";
+			txtTasks.Enabled = true;			
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
@@ -152,7 +152,7 @@ namespace AutoXDD
 			SetLabel(m_totalDuration);
 			progressBar1.Maximum = m_totalDuration;
 			progressBar1.Value = 0;
-			StartThread();
+			StartThread(0);
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

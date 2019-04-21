@@ -113,25 +113,30 @@ namespace AutoXDD
 		}
 
 		void AntiIdle(int milliseconds)
-		{
+		{			
 			for (int i = 0; i < 10; i++)
 			{
 				Sleep(milliseconds / 10);
-				MouseWheel(false);
+				if (IsTargetWndForeground())
+				{
+					MouseWheel(false);
+				}				
 			}
 		}
 
 		void Back()
 		{
+			SetTargetWndForeground();
 			MouseClick(32, 90); // 顶端<返回按钮
 		}
 
 		protected override void ThreadProc()
 		{
-			SetTargetWndForeground();
 			for (int i = 0; i < Count; i++)
 			{
 				TaskData data = m_tasks[i];
+
+				SetTargetWndForeground();
 
 				if (data.Scroll > 0)
 				{
