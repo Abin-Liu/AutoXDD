@@ -98,6 +98,7 @@ namespace AutoXDD
 
 			btnStart.Text = "■ 停止";
 			txtTasks.Enabled = false;
+			btnClear.Enabled = false;
 			m_startTime = DateTime.Now;
 			timer1.Enabled = true;
 		}
@@ -119,7 +120,8 @@ namespace AutoXDD
 			}
 			
 			btnStart.Text = "▶ 开始";
-			txtTasks.Enabled = true;			
+			txtTasks.Enabled = true;
+			btnClear.Enabled = true;
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
@@ -155,6 +157,11 @@ namespace AutoXDD
 			StartThread(0);
 		}
 
+		private void btnClear_Click(object sender, EventArgs e)
+		{
+			txtTasks.Text = "";
+		}
+
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			int elapsed = (int)(DateTime.Now - m_startTime).TotalMilliseconds;
@@ -162,6 +169,6 @@ namespace AutoXDD
 			elapsed = Math.Min(m_totalDuration, elapsed);
 			SetLabel(m_totalDuration - elapsed);
 			progressBar1.Value = elapsed;
-		}
+		}		
 	}
 }
