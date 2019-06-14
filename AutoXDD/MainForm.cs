@@ -67,7 +67,7 @@ namespace AutoXDD
 				}
 				else
 				{
-					text += string.Format("{0}, {1}, {2}", data.X, data.Y, formatTime(data.Duration));
+					text += string.Format("{0}, {1}, {2}", data.X, data.Y, data.Minutes);
 				}				
 			}
 
@@ -88,7 +88,7 @@ namespace AutoXDD
 			{
 				text += "\r\n";
 			}
-			text += string.Format("{0}, {1}, {2}", cursor.X, cursor.Y, formatTime(AutoXDDThread.DEFAULT_DURATION));
+			text += string.Format("{0}, {1}, {2}", cursor.X, cursor.Y, AutoXDDThread.DEFAULT_DURATION);
 			txtTasks.Text = text;
 		}
 

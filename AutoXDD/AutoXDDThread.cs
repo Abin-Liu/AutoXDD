@@ -10,13 +10,14 @@ namespace AutoXDD
 	{
 		public int X { get; set; } = 0;
 		public int Y { get; set; } = 0;
-		public int Duration { get; set; } = 0;
+		public int Duration { get; set; } = 0; // 毫秒
+		public int Minutes { get { return Duration / 1000 / 60; } } // 分钟
 		public int Scroll { get; set; } = 0;
 	}
 
 	class AutoXDDThread : AutomationThread
 	{
-		public const int DEFAULT_DURATION = 4 * 60 * 1000; // 默认任务时间
+		public const int DEFAULT_DURATION = 4; // 默认任务时间（分钟）
 		public const int SCROLL_DELAY_TIME = 100; // 两次滚轮之间的间隔
 		public const int TASK_OPEN_TIME = 1500; // 增加到每个任务开头的时间用于等待鼠标点击
 		public const int TASK_EXTRA_TIME = 3000; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
@@ -71,25 +72,7 @@ namespace AutoXDD
 					{
 						data.X = Convert.ToInt32(fields[0].Trim());
 						data.Y = Convert.ToInt32(fields[1].Trim());
-
-						string[] timeFields = fields[2].Split(new char[] { ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
-						if (timeFields.Length == 0)
-						{
-							data.Duration = DEFAULT_DURATION; // 默认
-						}
-						else if (timeFields.Length == 1)
-						{
-							data.Duration = Convert.ToInt32(timeFields[0]) * 1000; // 只有秒
-						}
-						else if (timeFields.Length == 2) // 分:秒
-						{
-							data.Duration = (Convert.ToInt32(timeFields[0]) * 60 + Convert.ToInt32(timeFields[1])) * 1000;
-						}
-						else // 时:分:秒
-						{
-							data.Duration = (Convert.ToInt32(timeFields[0]) * 3600 + Convert.ToInt32(timeFields[1]) * 60 + Convert.ToInt32(timeFields[2])) * 1000;
-						}
-
+						data.Duration = Convert.ToInt32(fields[2].Trim()) * 60 * 1000; // GUI上的任务时间一律是分钟
 						m_tasks.Add(data);
 						duration += TASK_OPEN_TIME + TASK_EXTRA_TIME + data.Duration + TASK_EXTRA_TIME;
 					}
