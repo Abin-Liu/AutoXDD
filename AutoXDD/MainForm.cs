@@ -10,6 +10,7 @@ namespace AutoXDD
 		AutoXDDThread m_thread = new AutoXDDThread();
 		DateTime m_startTime;
 		int m_totalDuration = 0;
+		bool hotkeyProcessing = false;
 
 		public MainForm()
 		{
@@ -74,11 +75,12 @@ namespace AutoXDD
 		protected override void OnHotKey(int id)
 		{
 			base.OnHotKey(id);
-			if (IsAlive)
+			if (IsAlive || hotkeyProcessing)
 			{
 				return;
 			}
 
+			hotkeyProcessing = true;
 			if (id == 1)
 			{
 				Point cursor = m_thread.GetCursorClientPos();
@@ -88,7 +90,8 @@ namespace AutoXDD
 			{				
 				AddDataRow(-1, -1);
 				AutoXDDThread.ScrollDown();
-			}			
+			}
+			hotkeyProcessing = false;
 		}
 
 		protected override void OnThreadStart()
