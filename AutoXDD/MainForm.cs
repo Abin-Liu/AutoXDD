@@ -22,6 +22,7 @@ namespace AutoXDD
 		{
 			base.Form_OnLoad(sender, e);
 			RegisterHotKey(1, Keys.F4);
+			RegisterHotKey(2, Keys.F6);
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -48,48 +49,46 @@ namespace AutoXDD
 		private void SetLabel(int milliseconds)
 		{
 			txtTime.Text = formatTime(milliseconds);
-		}
-
-		private void UpdateTaskText(int startIndex)
+		}		
+		
+		void AddDataRow(int x, int y)
 		{
-			string text = "";
-			for (int i = startIndex; i < m_thread.Count; i++)
+			int index = dataGridView1.Rows.Add();
+			DataGridViewCellCollection cells = dataGridView1.Rows[index].Cells;
+			if (x == -1)
 			{
-				TaskData data = m_thread[i];
-				if (text != "")
-				{
-					text += "\r\n";
-				}
-
-				if (data.Scroll > 0)
-				{
-					text += string.Format("/{0}", data.Scroll);
-				}
-				else
-				{
-					text += string.Format("{0}, {1}, {2}", data.X, data.Y, data.Minutes);
-				}				
+				cells[0].Value = "Scroll";
+				cells[1].Value = "Down";
+				cells[2].Value = AutoXDDThread.SCROLL_COUNT;
+				cells[2].ReadOnly = true;
 			}
-
-			txtTasks.Text = text;
+			else
+			{
+				cells[0].Value = x;
+				cells[1].Value = y;
+				cells[2].Value = AutoXDDThread.DEFAULT_DURATION;
+				cells[2].ReadOnly = false;
+			}
 		}		
 
 		protected override void OnHotKey(int id)
 		{
 			base.OnHotKey(id);
-			if (id != 1 || IsAlive)
+			if (IsAlive)
 			{
 				return;
 			}
 
-			Point cursor = m_thread.GetCursorClientPos();
-			string text = txtTasks.Text.Trim();
-			if (text != "")
+			if (id == 1)
 			{
-				text += "\r\n";
+				Point cursor = m_thread.GetCursorClientPos();
+				AddDataRow(cursor.X, cursor.Y);				
 			}
-			text += string.Format("{0}, {1}, {2}", cursor.X, cursor.Y, AutoXDDThread.DEFAULT_DURATION);
-			txtTasks.Text = text;
+			else if (id == 2)
+			{				
+				AddDataRow(-1, -1);
+				AutoXDDThread.ScrollDown();
+			}			
 		}
 
 		protected override void OnThreadStart()
@@ -97,7 +96,7 @@ namespace AutoXDD
 			base.OnThreadStart();
 
 			btnStart.Text = "■ 停止";
-			txtTasks.Enabled = false;
+			dataGridView1.Enabled = false;
 			btnClear.Enabled = false;
 			m_startTime = DateTime.Now;
 			timer1.Enabled = true;
@@ -116,11 +115,11 @@ namespace AutoXDD
 			{
 				SetLabel("已完成");
 				progressBar1.Value = progressBar1.Maximum;
-				txtTasks.Text = "";
+				dataGridView1.Rows.Clear();
 			}
 			
 			btnStart.Text = "▶ 开始";
-			txtTasks.Enabled = true;
+			dataGridView1.Enabled = true;
 			btnClear.Enabled = true;
 		}
 
@@ -132,7 +131,7 @@ namespace AutoXDD
 		protected override void OnThreadMessage(int wParam, int lParam)
 		{
 			base.OnThreadMessage(wParam, lParam);
-			UpdateTaskText(lParam);
+			dataGridView1.Rows.RemoveAt(0);
 		}
 
 		private void btnStart_Click(object sender, EventArgs e)
@@ -143,14 +142,19 @@ namespace AutoXDD
 				return;
 			}
 
-			m_totalDuration = m_thread.SetTasks(txtTasks.Text);
+			m_thread.Clear();
+			foreach (DataGridViewRow row in dataGridView1.Rows)
+			{
+				m_thread.AddTask(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString());
+			}
+
+			m_totalDuration = m_thread.TotalRuntime;
 			if (m_totalDuration == 0)
 			{
 				SetLabel("没有任务数据");
 				return;
 			}
 
-			UpdateTaskText(0);
 			SetLabel(m_totalDuration);
 			progressBar1.Maximum = m_totalDuration;
 			progressBar1.Value = 0;
@@ -159,7 +163,7 @@ namespace AutoXDD
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			txtTasks.Text = "";
+			dataGridView1.Rows.Clear();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
