@@ -10,10 +10,31 @@ namespace AutoXDD
 	class TaskData
 	{
 		public int X { get; set; } = 0;
-		public int Y { get; set; } = 0;
-		public int Duration { get; set; } = 0; // 毫秒
-		public int Minutes { get { return Duration / 1000 / 60; } } // 分钟
-		public bool Scroll { get { return X == -1; } }
+		public int Y { get; set; } = 0;		
+		public int Repeat { get; set; } = 1;
+
+		// 是否为滚轮
+		public bool Scroll
+		{
+			get
+			{
+				return X == -1;
+			}
+		}
+
+		// 毫秒
+		public int Milliseconds
+		{
+			get
+			{
+				if (Scroll)
+				{
+					return Repeat * AutoXDDThread.SCROLL_COUNT * AutoXDDThread.SCROLL_DELAY_TIME;
+				}
+
+				return Repeat * AutoXDDThread.DEFAULT_DURATION * 60 * 1000;
+			}
+		}
 	}
 
 	class AutoXDDThread : AutomationThread
@@ -24,26 +45,10 @@ namespace AutoXDD
 		public const int TASK_OPEN_TIME = 1500; // 增加到每个任务开头的时间用于等待鼠标点击
 		public const int TASK_EXTRA_TIME = 3000; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
 
-		public int Count { get { return m_tasks.Count; } }
-		public TaskData this[int index] { get { return m_tasks[index]; } }
-		public int TotalRuntime
-		{
-			get
-			{
-				int duration = 0;
-				foreach (TaskData data in m_tasks)
-				{					
-					duration += data.Duration;
-					if (!data.Scroll)
-					{
-						duration += TASK_OPEN_TIME + TASK_EXTRA_TIME * 2;
-					}
-				}
-				return duration;
-			}
-		}
+		public int Count { get { return m_tasks == null ? 0 : m_tasks.Length; } }
+		public TaskData this[int index] { get { return m_tasks[index]; } }	
 
-		List<TaskData> m_tasks = new List<TaskData>();		
+		TaskData[] m_tasks = null;		
 
 		public AutoXDDThread()
 		{
@@ -62,41 +67,26 @@ namespace AutoXDD
 			return point;
 		}
 
-		public void Clear()
-		{
-			m_tasks.Clear();
-		}
+		public int SetTasks(TaskData[] tasks)
+		{			
+			m_tasks = tasks;
+			if (m_tasks == null)
+			{
+				return 0;
+			}
 
-		public void AddTask(string x, string y, string minutes)
-		{
-			TaskData data = new TaskData();
-			if (x == "Scroll")
+			int totalDuration = 0;
+			foreach (TaskData data in m_tasks)
 			{
-				data.X = -1;
-				data.Duration = SCROLL_COUNT * SCROLL_DELAY_TIME;
-				m_tasks.Add(data);
+				totalDuration += data.Milliseconds;				
 			}
-			else
-			{
-				try
-				{
-					data.X = Convert.ToInt32(x);
-					data.Y = Convert.ToInt32(y);
-					data.Duration = (int)Convert.ToDouble(minutes) * 60 * 1000;
-					if (data.Duration > 0)
-					{
-						m_tasks.Add(data);
-					}
-				}
-				catch
-				{
-				}				
-			}
+			return totalDuration;
 		}		
 		
-		public static void ScrollDown()
+		public static void ScrollDown(int repeat = 1)
 		{
-			for (int i = 0; i < SCROLL_COUNT; i++)
+			int count = repeat * SCROLL_COUNT;
+			for (int i = 0; i < count; i++)
 			{				
 				MouseWheel(false);
 				Sleep(SCROLL_DELAY_TIME);
@@ -131,14 +121,14 @@ namespace AutoXDD
 
 				if (data.Scroll)
 				{
-					ScrollDown();
+					ScrollDown(data.Repeat);
 				}
 				else
 				{
 					Sleep(TASK_OPEN_TIME);
 					MouseClick(data.X, data.Y);
 					Sleep(TASK_EXTRA_TIME);
-					AntiIdle(data.Duration);
+					AntiIdle(data.Milliseconds);
 					Sleep(TASK_EXTRA_TIME);
 
 					// 最后一个任务不返回列表，正好蹭阅读时长

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Automation;
 
 namespace AutoXDD
@@ -11,6 +12,8 @@ namespace AutoXDD
 		DateTime m_startTime;
 		int m_totalDuration = 0;
 		bool hotkeyProcessing = false;
+
+		List<TaskData> m_dataList = new List<TaskData>();
 
 		public MainForm()
 		{
@@ -50,25 +53,55 @@ namespace AutoXDD
 		private void SetLabel(int milliseconds)
 		{
 			txtTime.Text = formatTime(milliseconds);
-		}		
+		}
 		
-		void AddDataRow(int x, int y)
+		TaskData GetLastTask()
 		{
-			int index = dataGridView1.Rows.Add();
-			DataGridViewCellCollection cells = dataGridView1.Rows[index].Cells;
-			if (x == -1)
+			if (m_dataList.Count > 0)
 			{
-				cells[0].Value = "Scroll";
-				cells[1].Value = "Down";
-				cells[2].Value = AutoXDDThread.SCROLL_COUNT;
-				cells[2].ReadOnly = true;
+				return m_dataList[m_dataList.Count - 1];
+			}
+			return null;
+		}
+
+		void AddTask(int x, int y)
+		{
+			TaskData data = GetLastTask();
+			if (data != null && Math.Abs(data.X - x) < 10 && Math.Abs(data.Y - y) < 10)
+			{
+				data.Repeat++;				
+				int value = 0;
+				if (data.X == -1)
+				{
+					value = data.Repeat * AutoXDDThread.SCROLL_COUNT;					
+				}
+				else
+				{
+					value = data.Repeat * AutoXDDThread.DEFAULT_DURATION;
+				}
+
+				DataGridViewRow row = dataGridView1.Rows[dataGridView1.Rows.Count - 1];
+				row.Cells[1].Value = value;
 			}
 			else
 			{
-				cells[0].Value = x;
-				cells[1].Value = y;
-				cells[2].Value = AutoXDDThread.DEFAULT_DURATION;
-				cells[2].ReadOnly = false;
+				data = new TaskData();
+				data.X = x;
+				data.Y = y;
+				m_dataList.Add(data);
+
+				int index = dataGridView1.Rows.Add();
+				DataGridViewCellCollection cells = dataGridView1.Rows[index].Cells;
+				if (x == -1)
+				{
+					cells[0].Value = "Scroll";
+					cells[1].Value = AutoXDDThread.SCROLL_COUNT;
+				}
+				else
+				{
+					cells[0].Value = "Click";
+					cells[1].Value = AutoXDDThread.DEFAULT_DURATION;
+				}
 			}
 		}		
 
@@ -84,11 +117,11 @@ namespace AutoXDD
 			if (id == 1)
 			{
 				Point cursor = m_thread.GetCursorClientPos();
-				AddDataRow(cursor.X, cursor.Y);				
+				AddTask(cursor.X, cursor.Y);				
 			}
 			else if (id == 2)
-			{				
-				AddDataRow(-1, -1);
+			{
+				AddTask(-1, -1);
 				AutoXDDThread.ScrollDown();
 			}
 			hotkeyProcessing = false;
@@ -134,7 +167,11 @@ namespace AutoXDD
 		protected override void OnThreadMessage(int wParam, int lParam)
 		{
 			base.OnThreadMessage(wParam, lParam);
-			dataGridView1.Rows.RemoveAt(0);
+			if (m_dataList.Count > 0)
+			{
+				m_dataList.RemoveAt(0);
+				dataGridView1.Rows.RemoveAt(0);
+			}			
 		}
 
 		private void btnStart_Click(object sender, EventArgs e)
@@ -145,13 +182,7 @@ namespace AutoXDD
 				return;
 			}
 
-			m_thread.Clear();
-			foreach (DataGridViewRow row in dataGridView1.Rows)
-			{
-				m_thread.AddTask(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString());
-			}
-
-			m_totalDuration = m_thread.TotalRuntime;
+			m_totalDuration = m_thread.SetTasks(m_dataList.ToArray());
 			if (m_totalDuration == 0)
 			{
 				SetLabel("没有任务数据");
@@ -166,6 +197,7 @@ namespace AutoXDD
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
+			m_dataList.Clear();
 			dataGridView1.Rows.Clear();
 		}
 

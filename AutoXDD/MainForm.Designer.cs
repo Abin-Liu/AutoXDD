@@ -43,7 +43,6 @@
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.colX = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colMinutes = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -140,10 +139,10 @@
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.ColumnHeadersVisible = false;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colX,
-            this.colY,
-            this.colMinutes});
+            this.colY});
 			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
 			this.dataGridView1.ImeMode = System.Windows.Forms.ImeMode.Off;
 			this.dataGridView1.Location = new System.Drawing.Point(10, 26);
@@ -155,23 +154,19 @@
 			// 
 			// colX
 			// 
-			this.colX.HeaderText = "X";
+			this.colX.HeaderText = "Type";
 			this.colX.Name = "colX";
 			this.colX.ReadOnly = true;
 			this.colX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.colX.Width = 120;
 			// 
 			// colY
 			// 
-			this.colY.HeaderText = "Y";
+			this.colY.HeaderText = "Value";
 			this.colY.Name = "colY";
 			this.colY.ReadOnly = true;
 			this.colY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// colMinutes
-			// 
-			this.colMinutes.HeaderText = "Minutes";
-			this.colMinutes.Name = "colMinutes";
-			this.colMinutes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.colY.Width = 120;
 			// 
 			// MainForm
 			// 
@@ -216,7 +211,6 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colX;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colY;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colMinutes;
 	}
 }
 
