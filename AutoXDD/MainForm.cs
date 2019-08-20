@@ -18,8 +18,9 @@ namespace AutoXDD
 		public MainForm()
 		{
 			InitializeComponent();
-			m_thread.EnableBeeps = true;
 			SetThread(m_thread);
+			m_thread.EnableBeeps = true;			
+			ThreadTickInterval = 0;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -192,7 +193,7 @@ namespace AutoXDD
 			SetLabel(m_totalDuration);
 			progressBar1.Maximum = m_totalDuration;
 			progressBar1.Value = 0;
-			StartThread(0);
+			StartThread();
 		}
 
 		private void btnClear_Click(object sender, EventArgs e)

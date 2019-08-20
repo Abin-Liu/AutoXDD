@@ -52,14 +52,18 @@ namespace AutoXDD
 
 		public AutoXDDThread()
 		{
-			TargetWndName = "学习强国 - MuMu模拟器";
+		}
+
+		public override IntPtr FindTargetWnd()
+		{
+			return FindWindow(null, "学习强国 - MuMu模拟器");
 		}
 
 		public Point GetCursorClientPos()
 		{
 			if (TargetWnd == IntPtr.Zero)
 			{
-				TargetWnd = Window.FindWindow(null, TargetWndName);
+				TargetWnd = FindTargetWnd();
 			}
 
 			Point point = Input.GetCursorPos();

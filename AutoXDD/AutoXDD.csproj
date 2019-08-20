@@ -34,8 +34,9 @@
     <ApplicationIcon>App.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Automation">
-      <HintPath>..\..\Automation\Automation\bin\Automation.dll</HintPath>
+    <Reference Include="Automation, Version=1.2.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Automation\Automation\distributes\Automation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +48,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Win32API">
+      <HintPath>..\..\Win32API\Win32API\Distributes\Win32API.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoXDDThread.cs" />
