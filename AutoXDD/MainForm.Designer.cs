@@ -29,157 +29,188 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.btnStart = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtTime = new System.Windows.Forms.Label();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
-			this.label3 = new System.Windows.Forms.Label();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.btnClear = new System.Windows.Forms.Button();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.colX = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.colY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.label1 = new System.Windows.Forms.Label();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.txtArticlePos = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.txtVideoPos = new System.Windows.Forms.TextBox();
+			this.btnStop = new System.Windows.Forms.Button();
+			this.btnStart = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
+			this.txtVideoButton = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
-			// 
-			// btnStart
-			// 
-			this.btnStart.Location = new System.Drawing.Point(32, 280);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(75, 25);
-			this.btnStart.TabIndex = 6;
-			this.btnStart.Text = "▶ 开始";
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(226, 280);
+			this.btnExit.Location = new System.Drawing.Point(227, 247);
 			this.btnExit.Name = "btnExit";
-			this.btnExit.Size = new System.Drawing.Size(75, 25);
-			this.btnExit.TabIndex = 8;
+			this.btnExit.Size = new System.Drawing.Size(75, 28);
+			this.btnExit.TabIndex = 13;
 			this.btnExit.Text = "退出";
 			this.btnExit.UseVisualStyleBackColor = true;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 10);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(67, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "任务列表：";
-			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 225);
+			this.label2.Location = new System.Drawing.Point(11, 196);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(67, 13);
-			this.label2.TabIndex = 3;
+			this.label2.Size = new System.Drawing.Size(65, 12);
+			this.label2.TabIndex = 8;
 			this.label2.Text = "剩余时间：";
 			// 
 			// txtTime
 			// 
-			this.txtTime.AutoSize = true;
-			this.txtTime.Location = new System.Drawing.Point(83, 225);
+			this.txtTime.Location = new System.Drawing.Point(82, 196);
 			this.txtTime.Name = "txtTime";
-			this.txtTime.Size = new System.Drawing.Size(43, 13);
-			this.txtTime.TabIndex = 4;
+			this.txtTime.Size = new System.Drawing.Size(234, 12);
+			this.txtTime.TabIndex = 9;
 			this.txtTime.Text = "未开始";
+			this.txtTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(10, 244);
+			this.progressBar1.Location = new System.Drawing.Point(14, 213);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(309, 20);
-			this.progressBar1.TabIndex = 5;
+			this.progressBar1.Size = new System.Drawing.Size(304, 18);
+			this.progressBar1.TabIndex = 10;
+			// 
+			// timer1
+			// 
+			this.timer1.Interval = 1000;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 14);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "浏览内容：";
+			// 
+			// comboBox1
+			// 
+			this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox1.FormattingEnabled = true;
+			this.comboBox1.Items.AddRange(new object[] {
+            "全部（文章+视频）",
+            "仅文章",
+            "仅视频"});
+			this.comboBox1.Location = new System.Drawing.Point(86, 11);
+			this.comboBox1.Name = "comboBox1";
+			this.comboBox1.Size = new System.Drawing.Size(233, 20);
+			this.comboBox1.TabIndex = 1;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(168, 9);
+			this.label3.Location = new System.Drawing.Point(11, 41);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(133, 13);
-			this.label3.TabIndex = 1;
-			this.label3.Text = "F4捕捉任务，F6滚屏5次";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.TabIndex = 2;
+			this.label3.Text = "文章起始：";
 			// 
-			// timer1
+			// txtArticlePos
 			// 
-			this.timer1.Interval = 200;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			this.txtArticlePos.BackColor = System.Drawing.SystemColors.Window;
+			this.txtArticlePos.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.txtArticlePos.Location = new System.Drawing.Point(86, 38);
+			this.txtArticlePos.Name = "txtArticlePos";
+			this.txtArticlePos.ReadOnly = true;
+			this.txtArticlePos.Size = new System.Drawing.Size(233, 21);
+			this.txtArticlePos.TabIndex = 3;
+			this.txtArticlePos.Click += new System.EventHandler(this.txtArticlePos_Click);
 			// 
-			// btnClear
+			// label4
 			// 
-			this.btnClear.Location = new System.Drawing.Point(130, 280);
-			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(75, 25);
-			this.btnClear.TabIndex = 7;
-			this.btnClear.Text = "清空";
-			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(11, 68);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(65, 12);
+			this.label4.TabIndex = 5;
+			this.label4.Text = "视频起始：";
 			// 
-			// dataGridView1
+			// txtVideoPos
 			// 
-			this.dataGridView1.AllowUserToAddRows = false;
-			this.dataGridView1.AllowUserToDeleteRows = false;
-			this.dataGridView1.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.ColumnHeadersVisible = false;
-			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colX,
-            this.colY});
-			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-			this.dataGridView1.ImeMode = System.Windows.Forms.ImeMode.Off;
-			this.dataGridView1.Location = new System.Drawing.Point(10, 26);
-			this.dataGridView1.MultiSelect = false;
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.RowHeadersVisible = false;
-			this.dataGridView1.Size = new System.Drawing.Size(309, 196);
-			this.dataGridView1.TabIndex = 9;
+			this.txtVideoPos.BackColor = System.Drawing.SystemColors.Window;
+			this.txtVideoPos.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.txtVideoPos.Location = new System.Drawing.Point(86, 65);
+			this.txtVideoPos.Name = "txtVideoPos";
+			this.txtVideoPos.ReadOnly = true;
+			this.txtVideoPos.Size = new System.Drawing.Size(233, 21);
+			this.txtVideoPos.TabIndex = 6;
+			this.txtVideoPos.Click += new System.EventHandler(this.txtVideoPos_Click);
 			// 
-			// colX
+			// btnStop
 			// 
-			this.colX.HeaderText = "Type";
-			this.colX.Name = "colX";
-			this.colX.ReadOnly = true;
-			this.colX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.colX.Width = 120;
+			this.btnStop.Enabled = false;
+			this.btnStop.Image = global::AutoXDD.Properties.Resources.Stop;
+			this.btnStop.Location = new System.Drawing.Point(128, 247);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.Size = new System.Drawing.Size(75, 28);
+			this.btnStop.TabIndex = 12;
+			this.btnStop.Text = "停止";
+			this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.btnStop.UseVisualStyleBackColor = true;
+			this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
 			// 
-			// colY
+			// btnStart
 			// 
-			this.colY.HeaderText = "Value";
-			this.colY.Name = "colY";
-			this.colY.ReadOnly = true;
-			this.colY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.colY.Width = 120;
+			this.btnStart.Image = global::AutoXDD.Properties.Resources.Start;
+			this.btnStart.Location = new System.Drawing.Point(32, 247);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size(75, 28);
+			this.btnStart.TabIndex = 11;
+			this.btnStart.Text = "开始";
+			this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(11, 95);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(65, 12);
+			this.label5.TabIndex = 5;
+			this.label5.Text = "视频按钮：";
+			// 
+			// txtVideoButton
+			// 
+			this.txtVideoButton.BackColor = System.Drawing.SystemColors.Window;
+			this.txtVideoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.txtVideoButton.Location = new System.Drawing.Point(86, 92);
+			this.txtVideoButton.Name = "txtVideoButton";
+			this.txtVideoButton.ReadOnly = true;
+			this.txtVideoButton.Size = new System.Drawing.Size(233, 21);
+			this.txtVideoButton.TabIndex = 6;
+			this.txtVideoButton.Click += new System.EventHandler(this.txtVideoButton_Click);
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(331, 321);
-			this.Controls.Add(this.dataGridView1);
-			this.Controls.Add(this.btnClear);
+			this.ClientSize = new System.Drawing.Size(333, 334);
+			this.Controls.Add(this.btnStop);
+			this.Controls.Add(this.txtVideoButton);
+			this.Controls.Add(this.label5);
+			this.Controls.Add(this.txtVideoPos);
+			this.Controls.Add(this.label4);
+			this.Controls.Add(this.txtArticlePos);
 			this.Controls.Add(this.label3);
+			this.Controls.Add(this.comboBox1);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.txtTime);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnStart);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -191,7 +222,6 @@
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.Load += new System.EventHandler(this.Form1_Load);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -201,16 +231,19 @@
 
 		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.Button btnExit;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label txtTime;
 		private System.Windows.Forms.ProgressBar progressBar1;
-		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Timer timer1;
-		private System.Windows.Forms.Button btnClear;
-		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colX;
-		private System.Windows.Forms.DataGridViewTextBoxColumn colY;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox txtArticlePos;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox txtVideoPos;
+		private System.Windows.Forms.Button btnStop;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox txtVideoButton;
 	}
 }
 

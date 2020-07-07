@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using Automation;
+using Win32API;
 
 namespace AutoXDD
 {
@@ -10,10 +10,7 @@ namespace AutoXDD
 	{
 		AutoXDDThread m_thread = new AutoXDDThread();
 		DateTime m_startTime;
-		int m_totalDuration = 0;
-		bool hotkeyProcessing = false;
-
-		List<TaskData> m_dataList = new List<TaskData>();
+		int m_totalTime = 0;
 
 		public MainForm()
 		{
@@ -25,9 +22,12 @@ namespace AutoXDD
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			base.Form_OnLoad(sender, e);
-			RegisterHotKey(1, Keys.F4);
-			RegisterHotKey(2, Keys.F6);
+			base.Form_OnLoad(sender, e);			
+			comboBox1.SelectedIndex = 0;
+			m_thread.Load();
+			txtArticlePos.Text = m_thread.ArticleStart.ToString();
+			txtVideoPos.Text = m_thread.VideoStart.ToString();
+			txtVideoButton.Text = m_thread.VideoButton.ToString();
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -40,101 +40,23 @@ namespace AutoXDD
 			base.Form_OnClosed(sender, e);
 		}		
 
-		private void SetLabel(string text)
-		{
-			txtTime.Text = text;
-		}
-
-		private static string formatTime(int milliseconds)
+		static string formatTime(int milliseconds)
 		{
 			int seconds = milliseconds / 1000;
 			return string.Format("{0}:{1:D2}", seconds / 60, seconds % 60);
-		}
-
-		private void SetLabel(int milliseconds)
-		{
-			txtTime.Text = formatTime(milliseconds);
-		}
-		
-		TaskData GetLastTask()
-		{
-			if (m_dataList.Count > 0)
-			{
-				return m_dataList[m_dataList.Count - 1];
-			}
-			return null;
-		}
-
-		void AddTask(int x, int y)
-		{
-			TaskData data = GetLastTask();
-			if (data != null && Math.Abs(data.X - x) < 10 && Math.Abs(data.Y - y) < 10)
-			{
-				data.Repeat++;				
-				int value = 0;
-				if (data.X == -1)
-				{
-					value = data.Repeat * AutoXDDThread.SCROLL_COUNT;					
-				}
-				else
-				{
-					value = data.Repeat * AutoXDDThread.DEFAULT_DURATION;
-				}
-
-				DataGridViewRow row = dataGridView1.Rows[dataGridView1.Rows.Count - 1];
-				row.Cells[1].Value = value;
-			}
-			else
-			{
-				data = new TaskData();
-				data.X = x;
-				data.Y = y;
-				m_dataList.Add(data);
-
-				int index = dataGridView1.Rows.Add();
-				DataGridViewCellCollection cells = dataGridView1.Rows[index].Cells;
-				if (x == -1)
-				{
-					cells[0].Value = "Scroll";
-					cells[1].Value = AutoXDDThread.SCROLL_COUNT;
-				}
-				else
-				{
-					cells[0].Value = "Click";
-					cells[1].Value = AutoXDDThread.DEFAULT_DURATION;
-				}
-			}
-		}		
-
-		protected override void OnHotKey(int id)
-		{
-			base.OnHotKey(id);
-			if (IsAlive || hotkeyProcessing)
-			{
-				return;
-			}
-
-			hotkeyProcessing = true;
-			if (id == 1)
-			{
-				Point cursor = m_thread.GetCursorClientPos();
-				AddTask(cursor.X, cursor.Y);				
-			}
-			else if (id == 2)
-			{
-				AddTask(-1, -1);
-				AutoXDDThread.ScrollDown();
-			}
-			hotkeyProcessing = false;
-		}
+		}			
 
 		protected override void OnThreadStart()
 		{
 			base.OnThreadStart();
 
-			btnStart.Text = "■ 停止";
-			dataGridView1.Enabled = false;
-			btnClear.Enabled = false;
+			comboBox1.Enabled = false;
+			txtArticlePos.Enabled = false;
+			txtVideoPos.Enabled = false;
+			txtVideoButton.Enabled = false;
+			btnStart.Enabled = false;
+			btnStop.Enabled = true;
+
 			m_startTime = DateTime.Now;
 			timer1.Enabled = true;
 		}
@@ -146,69 +68,114 @@ namespace AutoXDD
 			timer1.Enabled = false;
 			if (m_thread.Aborted)
 			{
-				SetLabel("已取消");
+				txtTime.Text = "已取消";
 			}
 			else
 			{
-				SetLabel("已完成");
+				txtTime.Text = "已完成";
 				progressBar1.Value = progressBar1.Maximum;
-				dataGridView1.Rows.Clear();
 			}
-			
-			btnStart.Text = "▶ 开始";
-			dataGridView1.Enabled = true;
-			btnClear.Enabled = true;
+
+			comboBox1.Enabled = true;
+			txtArticlePos.Enabled = true;
+			txtVideoPos.Enabled = true;
+			txtVideoButton.Enabled = true;
+			btnStart.Enabled = true;
+			btnStop.Enabled = false;
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
-		}
-
-		protected override void OnThreadMessage(int wParam, int lParam)
-		{
-			base.OnThreadMessage(wParam, lParam);
-			if (m_dataList.Count > 0)
-			{
-				m_dataList.RemoveAt(0);
-				dataGridView1.Rows.RemoveAt(0);
-			}			
-		}
+		}		
 
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			if (IsAlive)
 			{
-				StopThread();
 				return;
 			}
 
-			m_totalDuration = m_thread.SetTasks(m_dataList.ToArray());
-			if (m_totalDuration == 0)
-			{
-				SetLabel("没有任务数据");
-				return;
-			}
+			m_thread.Mode = (AutoXDDThread.BrowseMode)comboBox1.SelectedIndex;
+			m_thread.Save();
 
-			SetLabel(m_totalDuration);
-			progressBar1.Maximum = m_totalDuration;
+			m_totalTime = m_thread.TotalTime;
+			txtTime.Text = formatTime(m_totalTime);
+
+			progressBar1.Minimum = 0;
+			progressBar1.Maximum = m_totalTime;
 			progressBar1.Value = 0;
+
 			StartThread();
 		}
 
-		private void btnClear_Click(object sender, EventArgs e)
+		private void btnStop_Click(object sender, EventArgs e)
 		{
-			m_dataList.Clear();
-			dataGridView1.Rows.Clear();
+			if (IsAlive)
+			{
+				StopThread();
+			}
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			int elapsed = (int)(DateTime.Now - m_startTime).TotalMilliseconds;
 			elapsed = Math.Max(0, elapsed);
-			elapsed = Math.Min(m_totalDuration, elapsed);
-			SetLabel(m_totalDuration - elapsed);
+			elapsed = Math.Min(m_totalTime, elapsed);
+			txtTime.Text = formatTime(m_totalTime - elapsed);
 			progressBar1.Value = elapsed;
 		}		
+
+		void CapturePos(string type)
+		{
+			IntPtr targetWnd = m_thread.FindTargetWnd();
+			if (targetWnd == IntPtr.Zero)
+			{
+				MessageBox.Show(this, "未找到目标窗体。", ProductName);
+				return;
+			}
+
+			FormCapture form = new FormCapture(targetWnd);
+			if (form.ShowDialog(this) != DialogResult.OK)
+			{
+				return;
+			}
+
+			switch (type)
+			{
+				case "ArticalPos":
+					m_thread.ArticleStart = form.CursorPos;
+					txtArticlePos.Text = m_thread.ArticleStart.ToString();
+					break;
+
+				case "VideoPos":
+					m_thread.VideoStart = form.CursorPos;
+					txtVideoPos.Text = m_thread.VideoStart.ToString();
+					break;
+
+				case "VideoButton":
+					break;
+
+				default:
+					break;
+			}			
+
+			Window.SetForegroundWindow(Handle);
+		}
+
+		private void txtArticlePos_Click(object sender, EventArgs e)
+		{
+			CapturePos("ArticalPos");
+		}
+
+		private void txtVideoPos_Click(object sender, EventArgs e)
+		{
+			CapturePos("VideoPos");
+		}
+
+		private void txtVideoButton_Click(object sender, EventArgs e)
+		{
+			CapturePos("VideoButton");
+		}
 	}
 }
