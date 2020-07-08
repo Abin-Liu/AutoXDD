@@ -9,22 +9,23 @@ namespace AutoXDD
 	public partial class MainForm : AutomationForm
 	{
 		AutoXDDThread m_thread = new AutoXDDThread();
-		DateTime m_startTime;
-		int m_totalTime = 0;
+
+		DateTime m_startTime; // 线程开始时间
+		int m_totalTime = 0; // 任务总预计耗时
 
 		public MainForm()
 		{
 			InitializeComponent();
 			SetThread(m_thread);
 			m_thread.EnableBeeps = true;			
-			ThreadTickInterval = 0;
+			ThreadTickInterval = 0; // 本项目不需要ticker
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			base.Form_OnLoad(sender, e);			
-			comboBox1.SelectedIndex = 0;
+			base.Form_OnLoad(sender, e);
 			m_thread.Load();
+			comboBox1.SelectedIndex = 0;			
 			txtArticlePos.Text = m_thread.ArticleStart.ToString();
 			txtVideoPos.Text = m_thread.VideoStart.ToString();
 			txtVideoButton.Text = m_thread.VideoButton.ToString();
@@ -33,6 +34,7 @@ namespace AutoXDD
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			base.Form_OnClosing(sender, e);
+			timer1.Enabled = false;
 		}
 
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -86,12 +88,18 @@ namespace AutoXDD
 
 		private void btnExit_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			Close();
 		}		
 
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			if (IsAlive)
+			{
+				return;
+			}
+
+			IntPtr targetWnd = TestTargetWindow();
+			if (targetWnd == IntPtr.Zero)
 			{
 				return;
 			}
@@ -124,14 +132,23 @@ namespace AutoXDD
 			elapsed = Math.Min(m_totalTime, elapsed);
 			txtTime.Text = formatTime(m_totalTime - elapsed);
 			progressBar1.Value = elapsed;
-		}		
-
-		void CapturePos(string type)
+		}
+		
+		IntPtr TestTargetWindow()
 		{
 			IntPtr targetWnd = m_thread.FindTargetWnd();
 			if (targetWnd == IntPtr.Zero)
 			{
-				MessageBox.Show(this, "未找到目标窗体。", ProductName);
+				MessageBox.Show(this, "未找到目标窗体: " + AutoXDDThread.WindowName, ProductName);
+			}
+			return targetWnd;
+		}
+
+		void CapturePos(string type)
+		{
+			IntPtr targetWnd = TestTargetWindow();
+			if (targetWnd == IntPtr.Zero)
+			{
 				return;
 			}
 
@@ -154,6 +171,8 @@ namespace AutoXDD
 					break;
 
 				case "VideoButton":
+					m_thread.VideoButton = form.CursorPos;
+					txtVideoButton.Text = m_thread.VideoButton.ToString();
 					break;
 
 				default:

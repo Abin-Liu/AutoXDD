@@ -49,9 +49,9 @@
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(227, 247);
+			this.btnExit.Location = new System.Drawing.Point(227, 209);
 			this.btnExit.Name = "btnExit";
-			this.btnExit.Size = new System.Drawing.Size(75, 28);
+			this.btnExit.Size = new System.Drawing.Size(75, 30);
 			this.btnExit.TabIndex = 13;
 			this.btnExit.Text = "退出";
 			this.btnExit.UseVisualStyleBackColor = true;
@@ -60,26 +60,26 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(11, 196);
+			this.label2.Location = new System.Drawing.Point(11, 153);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(65, 12);
+			this.label2.Size = new System.Drawing.Size(67, 13);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "剩余时间：";
 			// 
 			// txtTime
 			// 
-			this.txtTime.Location = new System.Drawing.Point(82, 196);
+			this.txtTime.Location = new System.Drawing.Point(82, 153);
 			this.txtTime.Name = "txtTime";
-			this.txtTime.Size = new System.Drawing.Size(234, 12);
+			this.txtTime.Size = new System.Drawing.Size(234, 13);
 			this.txtTime.TabIndex = 9;
 			this.txtTime.Text = "未开始";
 			this.txtTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(14, 213);
+			this.progressBar1.Location = new System.Drawing.Point(14, 172);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(304, 18);
+			this.progressBar1.Size = new System.Drawing.Size(304, 20);
 			this.progressBar1.TabIndex = 10;
 			// 
 			// timer1
@@ -90,9 +90,9 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 14);
+			this.label1.Location = new System.Drawing.Point(12, 15);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.Size = new System.Drawing.Size(67, 13);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "浏览内容：";
 			// 
@@ -104,17 +104,17 @@
             "全部（文章+视频）",
             "仅文章",
             "仅视频"});
-			this.comboBox1.Location = new System.Drawing.Point(86, 11);
+			this.comboBox1.Location = new System.Drawing.Point(86, 12);
 			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(233, 20);
+			this.comboBox1.Size = new System.Drawing.Size(233, 21);
 			this.comboBox1.TabIndex = 1;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(11, 41);
+			this.label3.Location = new System.Drawing.Point(11, 44);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.Size = new System.Drawing.Size(67, 13);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "文章起始：";
 			// 
@@ -122,19 +122,19 @@
 			// 
 			this.txtArticlePos.BackColor = System.Drawing.SystemColors.Window;
 			this.txtArticlePos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.txtArticlePos.Location = new System.Drawing.Point(86, 38);
+			this.txtArticlePos.Location = new System.Drawing.Point(86, 41);
 			this.txtArticlePos.Name = "txtArticlePos";
 			this.txtArticlePos.ReadOnly = true;
-			this.txtArticlePos.Size = new System.Drawing.Size(233, 21);
+			this.txtArticlePos.Size = new System.Drawing.Size(233, 20);
 			this.txtArticlePos.TabIndex = 3;
 			this.txtArticlePos.Click += new System.EventHandler(this.txtArticlePos_Click);
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(11, 68);
+			this.label4.Location = new System.Drawing.Point(11, 74);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(65, 12);
+			this.label4.Size = new System.Drawing.Size(67, 13);
 			this.label4.TabIndex = 5;
 			this.label4.Text = "视频起始：";
 			// 
@@ -142,10 +142,10 @@
 			// 
 			this.txtVideoPos.BackColor = System.Drawing.SystemColors.Window;
 			this.txtVideoPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.txtVideoPos.Location = new System.Drawing.Point(86, 65);
+			this.txtVideoPos.Location = new System.Drawing.Point(86, 70);
 			this.txtVideoPos.Name = "txtVideoPos";
 			this.txtVideoPos.ReadOnly = true;
-			this.txtVideoPos.Size = new System.Drawing.Size(233, 21);
+			this.txtVideoPos.Size = new System.Drawing.Size(233, 20);
 			this.txtVideoPos.TabIndex = 6;
 			this.txtVideoPos.Click += new System.EventHandler(this.txtVideoPos_Click);
 			// 
@@ -153,9 +153,9 @@
 			// 
 			this.btnStop.Enabled = false;
 			this.btnStop.Image = global::AutoXDD.Properties.Resources.Stop;
-			this.btnStop.Location = new System.Drawing.Point(128, 247);
+			this.btnStop.Location = new System.Drawing.Point(128, 209);
 			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(75, 28);
+			this.btnStop.Size = new System.Drawing.Size(75, 30);
 			this.btnStop.TabIndex = 12;
 			this.btnStop.Text = "停止";
 			this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -165,9 +165,9 @@
 			// btnStart
 			// 
 			this.btnStart.Image = global::AutoXDD.Properties.Resources.Start;
-			this.btnStart.Location = new System.Drawing.Point(32, 247);
+			this.btnStart.Location = new System.Drawing.Point(32, 209);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(75, 28);
+			this.btnStart.Size = new System.Drawing.Size(75, 30);
 			this.btnStart.TabIndex = 11;
 			this.btnStart.Text = "开始";
 			this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -177,9 +177,9 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(11, 95);
+			this.label5.Location = new System.Drawing.Point(11, 103);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(65, 12);
+			this.label5.Size = new System.Drawing.Size(67, 13);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "视频按钮：";
 			// 
@@ -187,18 +187,18 @@
 			// 
 			this.txtVideoButton.BackColor = System.Drawing.SystemColors.Window;
 			this.txtVideoButton.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.txtVideoButton.Location = new System.Drawing.Point(86, 92);
+			this.txtVideoButton.Location = new System.Drawing.Point(86, 100);
 			this.txtVideoButton.Name = "txtVideoButton";
 			this.txtVideoButton.ReadOnly = true;
-			this.txtVideoButton.Size = new System.Drawing.Size(233, 21);
+			this.txtVideoButton.Size = new System.Drawing.Size(233, 20);
 			this.txtVideoButton.TabIndex = 6;
 			this.txtVideoButton.Click += new System.EventHandler(this.txtVideoButton_Click);
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(333, 334);
+			this.ClientSize = new System.Drawing.Size(333, 252);
 			this.Controls.Add(this.btnStop);
 			this.Controls.Add(this.txtVideoButton);
 			this.Controls.Add(this.label5);

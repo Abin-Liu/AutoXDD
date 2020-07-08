@@ -11,6 +11,7 @@ namespace AutoXDD
 	class AutoXDDThread : AutomationThread
 	{
 		public enum BrowseMode { All, Articles, Videos }
+		public const string WindowName = "学习强国 - MuMu模拟器";
 
 		public BrowseMode Mode { get; set; }
 		public Point ArticleStart { get; set; } // 第一篇文章起始位置
@@ -29,7 +30,7 @@ namespace AutoXDD
 
 		const int PageChangeoverTime = 2000; // 换页时间
 		const int TaskOpenTime = 1500; // 增加到每个任务开头的时间用于等待鼠标点击
-		const int TaskExtraTime = 2000; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
+		const int TaskExtraTime = 1500; // 增加到每个任务开始和结尾的额外时间，用以抵消网络延迟和程序延迟等因素
 
 		// 全流程预计耗时：
 		public int TotalTime
@@ -112,7 +113,7 @@ namespace AutoXDD
 		public override IntPtr FindTargetWnd()
 		{
 			// return FindWindow("Notepad", null);
-			return FindWindow(null, "学习强国 - MuMu模拟器");
+			return FindWindow(null, WindowName);
 		}	
 		
 
