@@ -53,7 +53,7 @@ namespace AutoXDD
 				if (Mode == BrowseMode.All || Mode == BrowseMode.Videos)
 				{
 					// 观看6个视频，其中新闻联播观看3倍时长	
-					duration += (VideoDuration + TaskOpenTime + TaskExtraTime) * VideoCount + VideoDuration * 2;
+					duration += (VideoDuration + TaskOpenTime + TaskExtraTime) * VideoCount + VideoDuration * 2 + TaskOpenTime;
 				}
 
 				return duration;
@@ -171,6 +171,11 @@ namespace AutoXDD
 					Sleep(TaskExtraTime);
 					point.Y += VideoHeight;
 				}
+
+				// 流程已结束，反正已进入空闲等待状态，不妨点击下一视频
+				SetTargetWndForeground();
+				Sleep(TaskOpenTime);
+				MouseClick(point.X, point.Y);
 			}			
 		}
 	}
