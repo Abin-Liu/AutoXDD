@@ -19,7 +19,7 @@ namespace AutoXDD
 		public Point VideoButton { get; set; } // 右下角[电视台]按钮
 
 		const int ArticleCount = 6; // 文章浏览篇数
-		const int ArticleDuration = 120000; // 文章浏览时长（2分钟）
+		const int ArticleDuration = 180000; // 文章浏览时长（2分钟）
 		const int ArticleHeight = 122; // 文章链接高度（像素）
 		
 		const int VideoCount = 7; // 视频观看次数		
