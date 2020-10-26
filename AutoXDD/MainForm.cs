@@ -23,7 +23,6 @@ namespace AutoXDD
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			base.Form_OnLoad(sender, e);
 			m_thread.Load();
 			comboBox1.SelectedIndex = 0;			
 			txtArticlePos.Text = m_thread.ArticleStart.ToString();
@@ -33,14 +32,8 @@ namespace AutoXDD
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			base.Form_OnClosing(sender, e);
 			timer1.Enabled = false;
 		}
-
-		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			base.Form_OnClosed(sender, e);
-		}		
 
 		static string formatTime(int milliseconds)
 		{
