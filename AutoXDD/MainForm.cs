@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Automation;
 using Win32API;
+using ToolkitForms;
 
 namespace AutoXDD
 {
@@ -196,8 +196,13 @@ namespace AutoXDD
 
 		private void Shutdown()
 		{
-			Process.Start("shutdown.exe", "-s -t 180");
-			Close();
+			ShutdownForm form = new ShutdownForm();
+			form.CountDown = 180;
+
+			if (form.ShowDialog(this) == DialogResult.OK)
+			{
+				Close();
+			}
 		}
 	}
 }
