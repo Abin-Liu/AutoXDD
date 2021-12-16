@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Automation;
 using Win32API;
@@ -69,6 +69,10 @@ namespace AutoXDD
 			{
 				txtTime.Text = "已完成";
 				progressBar1.Value = progressBar1.Maximum;
+				if (chkAutoShutdown.Checked)
+				{
+					Shutdown();
+				}
 			}
 
 			comboBox1.Enabled = true;
@@ -188,6 +192,12 @@ namespace AutoXDD
 		private void txtVideoButton_Click(object sender, EventArgs e)
 		{
 			CapturePos("VideoButton");
+		}
+
+		private void Shutdown()
+		{
+			Process.Start("shutdown.exe", "-s -t 180");
+			Close();
 		}
 	}
 }

@@ -45,22 +45,25 @@
 			this.btnStart = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.txtVideoButton = new System.Windows.Forms.TextBox();
+			this.chkAutoShutdown = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(227, 209);
+			this.btnExit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btnExit.Location = new System.Drawing.Point(227, 217);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(75, 30);
-			this.btnExit.TabIndex = 13;
+			this.btnExit.TabIndex = 14;
 			this.btnExit.Text = "退出";
 			this.btnExit.UseVisualStyleBackColor = true;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
 			// 
 			// label2
 			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(11, 153);
+			this.label2.Location = new System.Drawing.Point(11, 140);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(67, 13);
 			this.label2.TabIndex = 8;
@@ -68,7 +71,8 @@
 			// 
 			// txtTime
 			// 
-			this.txtTime.Location = new System.Drawing.Point(82, 153);
+			this.txtTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTime.Location = new System.Drawing.Point(82, 140);
 			this.txtTime.Name = "txtTime";
 			this.txtTime.Size = new System.Drawing.Size(234, 13);
 			this.txtTime.TabIndex = 9;
@@ -77,7 +81,9 @@
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(14, 172);
+			this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.progressBar1.Location = new System.Drawing.Point(14, 159);
 			this.progressBar1.Name = "progressBar1";
 			this.progressBar1.Size = new System.Drawing.Size(304, 20);
 			this.progressBar1.TabIndex = 10;
@@ -135,7 +141,7 @@
 			this.label4.Location = new System.Drawing.Point(11, 74);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(67, 13);
-			this.label4.TabIndex = 5;
+			this.label4.TabIndex = 4;
 			this.label4.Text = "视频起始：";
 			// 
 			// txtVideoPos
@@ -146,17 +152,18 @@
 			this.txtVideoPos.Name = "txtVideoPos";
 			this.txtVideoPos.ReadOnly = true;
 			this.txtVideoPos.Size = new System.Drawing.Size(233, 20);
-			this.txtVideoPos.TabIndex = 6;
+			this.txtVideoPos.TabIndex = 5;
 			this.txtVideoPos.Click += new System.EventHandler(this.txtVideoPos_Click);
 			// 
 			// btnStop
 			// 
+			this.btnStop.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnStop.Enabled = false;
 			this.btnStop.Image = global::AutoXDD.Properties.Resources.Stop;
-			this.btnStop.Location = new System.Drawing.Point(128, 209);
+			this.btnStop.Location = new System.Drawing.Point(128, 217);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(75, 30);
-			this.btnStop.TabIndex = 12;
+			this.btnStop.TabIndex = 13;
 			this.btnStop.Text = "停止";
 			this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnStop.UseVisualStyleBackColor = true;
@@ -164,11 +171,12 @@
 			// 
 			// btnStart
 			// 
+			this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnStart.Image = global::AutoXDD.Properties.Resources.Start;
-			this.btnStart.Location = new System.Drawing.Point(32, 209);
+			this.btnStart.Location = new System.Drawing.Point(32, 217);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(75, 30);
-			this.btnStart.TabIndex = 11;
+			this.btnStart.TabIndex = 12;
 			this.btnStart.Text = "开始";
 			this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -180,7 +188,7 @@
 			this.label5.Location = new System.Drawing.Point(11, 103);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(67, 13);
-			this.label5.TabIndex = 5;
+			this.label5.TabIndex = 6;
 			this.label5.Text = "视频按钮：";
 			// 
 			// txtVideoButton
@@ -191,14 +199,26 @@
 			this.txtVideoButton.Name = "txtVideoButton";
 			this.txtVideoButton.ReadOnly = true;
 			this.txtVideoButton.Size = new System.Drawing.Size(233, 20);
-			this.txtVideoButton.TabIndex = 6;
+			this.txtVideoButton.TabIndex = 7;
 			this.txtVideoButton.Click += new System.EventHandler(this.txtVideoButton_Click);
+			// 
+			// chkAutoShutdown
+			// 
+			this.chkAutoShutdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chkAutoShutdown.AutoSize = true;
+			this.chkAutoShutdown.Location = new System.Drawing.Point(15, 188);
+			this.chkAutoShutdown.Name = "chkAutoShutdown";
+			this.chkAutoShutdown.Size = new System.Drawing.Size(110, 17);
+			this.chkAutoShutdown.TabIndex = 11;
+			this.chkAutoShutdown.Text = "结束后自动关机";
+			this.chkAutoShutdown.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(333, 252);
+			this.ClientSize = new System.Drawing.Size(333, 260);
+			this.Controls.Add(this.chkAutoShutdown);
 			this.Controls.Add(this.btnStop);
 			this.Controls.Add(this.txtVideoButton);
 			this.Controls.Add(this.label5);
@@ -243,6 +263,7 @@
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox txtVideoButton;
+		private System.Windows.Forms.CheckBox chkAutoShutdown;
 	}
 }
 
